@@ -80,6 +80,19 @@ controller.on('slash_command', function (slashCommand, message) {
                     });
                     return;
                 }
+                if (!user_data || !user_data.access_token) {
+                    slashCommand.replyPrivate(message, {
+                        "attachments": [
+                            {
+                                "fallback": "Please authorize.",
+                                "pretext": "Additional permissions are required to use Caps.",
+                                "title": "Authorization Caps",
+                                "title_link": `https://slack.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=chat:write:user`       
+                            }
+                        ]
+                    });
+                    return;
+                }
                 slashCommand.api.chat.postMessage({
                     token: user_data.access_token,
                     channel: message.channel,
