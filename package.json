@@ -1,0 +1,15 @@
+{
+  "name": "caps",
+  "version": "1.0.0",
+  "description": "Random caps.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "botkit": "^0.6.21",
+    "botkit-storage-mongo": "^1.0.7",
+    "mongodb": "^1.4.39"
+  }
+}

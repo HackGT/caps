@@ -1,0 +1,9 @@
+git:
+  branch: master
+
+wants:
+  mongo: true
+secrets:
+  - CLIENT_ID
+  - CLIENT_SECRET
+  - VERIFICATION_TOKEN
