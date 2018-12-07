@@ -42,6 +42,35 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+function caps(section) {
+  var out = "";
+  var numSameCase = 0;
+  var prevCase = 0;
+  for (var char of section) {
+
+    if (char.match(/[a-z]/i)) {
+      var letterCase = getRandomInt(2);
+      if (letterCase === prevCase) {
+        numSameCase++;
+      }
+      if (numSameCase >= 2) {
+        letterCase = Math.abs(letterCase - 1);
+        numSameCase = 0;
+      }
+      prevCase = letterCase;
+
+      if (letterCase) {
+        out += char.toLowerCase();
+      } else {
+        out += char.toUpperCase();
+      }
+    } else {
+      out += char;
+    }
+  }
+  return out;
+}
+
 controller.on('slash_command', function (slashCommand, message) {
 
     switch (message.command) {
@@ -52,17 +81,7 @@ controller.on('slash_command', function (slashCommand, message) {
                     if (section[0] == '<') {
                         out += section;
                     } else {
-                        for (var char of section) {
-                            if (char.match(/[a-z]/i)) {
-                                if (getRandomInt(2)) {
-                                    out += char.toLowerCase();
-                                } else {
-                                    out += char.toUpperCase();
-                                }
-                            } else {
-                                out += char;
-                            }   
-                        }
+                        out += caps(section);
                     }
             }
             controller.storage.users.get(message.user_id, function(err, user_data) {
@@ -74,7 +93,7 @@ controller.on('slash_command', function (slashCommand, message) {
                                 "fallback": "Please authorize.",
                                 "pretext": "Additional permissions are required to use Caps.",
                                 "title": "Authorization Caps",
-                                "title_link": `https://slack.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=chat:write:user`       
+                                "title_link": `https://slack.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=chat:write:user`
                             }
                         ]
                     });
@@ -87,7 +106,7 @@ controller.on('slash_command', function (slashCommand, message) {
                                 "fallback": "Please authorize.",
                                 "pretext": "Additional permissions are required to use Caps.",
                                 "title": "Authorization Caps",
-                                "title_link": `https://slack.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=chat:write:user`       
+                                "title_link": `https://slack.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=chat:write:user`
                             }
                         ]
                     });
